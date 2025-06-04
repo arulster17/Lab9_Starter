@@ -87,6 +87,14 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "8229a5dbf502491b9fb9cc7fa8995f86"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +110,105 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    let btnList = document.getElementById('error-btns');
+    let data = {0:'alice', 1:'bob', "chicken":"beef"};
+
+    let jsonString = '{"name": "Arul", "age": 19';
+    try {
+      let data = JSON.parse(jsonString);
+    } catch (err) {
+      console.error("Failed to parse JSON:", err.message);
+      let data = {};
+    } finally {
+      console.log("Data is:")
+      console.table(data);
+    }
+    class HolyCrapHeTriedToDivideByZeroError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "HolyCrapHeTriedToDivideByZeroError";
+      }
+    }
+    let average;
+    try {
+      let totalScore = 20;
+      let numStudents = 0;
+      if (numStudents == 0) {
+        throw new HolyCrapHeTriedToDivideByZeroError();
+      }
+      average = totalScore/numStudents;
+      
+    } catch (err) {
+      console.error("Error thrown:", err.name);
+      average = 0;
+    } finally {
+      console.log("Average is:")
+      console.table(average);
+    }
+
+
+    for (let btn of btnList.children) {
+      btn.addEventListener('click', () => {
+        switch(btn.textContent) {
+          case 'Console Log':
+            console.log('console.log');
+            break;
+          case 'Console Error':
+            console.error('console.error');
+            break;
+          case 'Console Count':
+            console.count('count');
+            break;
+          case 'Console Warn':
+            console.warn('console.warn');
+            break;
+          case 'Console Assert':
+            console.assert(false, 'asserted false value');
+            break;
+          case 'Console Clear':
+            console.clear();
+            break;
+          case 'Console Dir':
+            console.dir(data["chicken"]);
+            break;
+          case 'Console dirxml':
+            console.dirxml(document.body);
+            break;
+          case 'Console Group Start':
+            console.group('group');
+            console.log('in');
+            console.warn('in2');
+            break;
+          case 'Console Group End':
+            console.groupEnd();
+            break;
+          case 'Console Table':
+            console.table(data);
+            break;
+          case 'Start Timer':
+            console.time('MyTimer');
+            break;
+          case 'End Timer':
+            console.timeEnd('MyTimer');
+            break;
+          case 'Console Trace':
+            function a() {
+              function b() {
+                console.trace('hi');
+              }
+              b();
+            }
+            a();
+            break;
+          case 'Trigger a Global Error':
+            qwertyujdtdfhsbdrbdrgbserbg();
+        }
+      });
+
+      window.onerror = function () {
+        console.log('global error logged');
+      };
+    }
   </script>
 </body>
 
